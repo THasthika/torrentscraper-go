@@ -19,15 +19,13 @@ func Init() {
 }
 
 // Search func
-func Search(query string) {
-	res := searchType(query, scraper.TorrentTypeUnspecified)
-	fmt.Println(res)
+func Search(query string) []*scraper.TorrentMeta {
+	return searchType(query, scraper.TorrentTypeUnspecified)
 }
 
 // SearchMovie func
-func SearchMovie(query string) {
-	res := searchType(query, scraper.TorrentTypeMovie)
-	fmt.Println(res)
+func SearchMovie(query string) []*scraper.TorrentMeta {
+	return searchType(query, scraper.TorrentTypeMovie)
 }
 
 func searchType(query string, ttype scraper.TorrentType) []*scraper.TorrentMeta {

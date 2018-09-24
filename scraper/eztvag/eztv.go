@@ -10,6 +10,7 @@ import (
 )
 
 const id = "eztvag"
+const name = "eztv.ag"
 const ttype = scraper.TorrentTypeTV
 
 const urlPlaceholder = "https://eztv.ag/search/%s"
@@ -33,7 +34,8 @@ func Init() *scraper.Scraper {
 func Search(query string, t scraper.TorrentType, out chan scraper.Result) {
 
 	res := scraper.Result{
-		ID: id,
+		ID:   id,
+		Name: name,
 	}
 
 	if t&ttype != t {
@@ -64,6 +66,7 @@ func SearchShow(name string, season uint, episode uint, out chan scraper.Result)
 		ID:       id,
 		Torrents: ret,
 		Err:      err,
+		Name:     name,
 	}
 
 	out <- res

@@ -1,8 +1,6 @@
 package torrentscraper
 
 import (
-	"fmt"
-
 	"github.com/tharindu96/torrentscraper-go/scraper"
 	"github.com/tharindu96/torrentscraper-go/scraper/eztvag"
 	"github.com/tharindu96/torrentscraper-go/scraper/zooqlecom"
@@ -19,16 +17,16 @@ func Init() {
 }
 
 // Search func
-func Search(query string) []*scraper.TorrentMeta {
+func Search(query string) map[string][]*scraper.TorrentMeta {
 	return searchType(query, scraper.TorrentTypeUnspecified)
 }
 
 // SearchMovie func
-func SearchMovie(query string) []*scraper.TorrentMeta {
+func SearchMovie(query string) map[string][]*scraper.TorrentMeta {
 	return searchType(query, scraper.TorrentTypeMovie)
 }
 
-func searchType(query string, ttype scraper.TorrentType) []*scraper.TorrentMeta {
+func searchType(query string, ttype scraper.TorrentType) map[string][]*scraper.TorrentMeta {
 	out := make(chan scraper.Result)
 
 	count := 0
@@ -39,12 +37,11 @@ func searchType(query string, ttype scraper.TorrentType) []*scraper.TorrentMeta 
 		}
 	}
 
-	res := make([]*scraper.TorrentMeta, 0)
+	res := make(map[string][]*scraper.TorrentMeta, 0)
 	for i := 0; i < count; i++ {
 		result := <-out
-		fmt.Println(result)
 		if result.Err == nil && result.Torrents != nil {
-			res = append(res, result.Torrents...)
+			res[result.Name] = result.Torrents
 		}
 	}
 

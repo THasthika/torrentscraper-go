@@ -10,6 +10,7 @@ import (
 )
 
 const id = "zooqlecom"
+const name = "zooqle.com"
 const ttype = scraper.TorrentTypeTV | scraper.TorrentTypeBook | scraper.TorrentTypeGame | scraper.TorrentTypeMovie
 
 const urlPlaceholder = "https://zooqle.com/search?q=%s"
@@ -33,7 +34,8 @@ func Init() *scraper.Scraper {
 func Search(query string, t scraper.TorrentType, out chan scraper.Result) {
 
 	res := scraper.Result{
-		ID: id,
+		ID:   id,
+		Name: name,
 	}
 
 	if t&ttype != t {
@@ -62,6 +64,7 @@ func SearchShow(name string, season uint, episode uint, out chan scraper.Result)
 
 	res := scraper.Result{
 		ID:       id,
+		Name:     name,
 		Torrents: ret,
 		Err:      err,
 	}

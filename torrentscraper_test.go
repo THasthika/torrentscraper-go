@@ -1,11 +1,14 @@
 package torrentscraper
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestMain(t *testing.T) {
 	Init()
 
-	Search("Elementary S01E01")
+	fmt.Println(Search("Elementary S01E01"))
 
-	SearchMovie("Iron Man")
+	fmt.Println(SearchMovie("Iron Man"))
 }

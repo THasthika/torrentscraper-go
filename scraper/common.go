@@ -3,6 +3,7 @@ package scraper
 // Scraper Implementation
 type Scraper struct {
 	ID             string
+	Name           string
 	SupportedTypes TorrentType
 	Search         func(query string, t TorrentType, out chan Result)
 	SearchShow     func(name string, season uint, episode uint, out chan Result)
@@ -12,6 +13,7 @@ type Scraper struct {
 // Result result from the scraper
 type Result struct {
 	ID       string
+	Name     string
 	Torrents []*TorrentMeta
 	Err      error
 }

@@ -17,7 +17,7 @@ type Result struct {
 }
 
 // TorrentType of the Torrent
-type TorrentType int
+type TorrentType uint
 
 // Set of TorrentTypes
 const (
@@ -25,9 +25,14 @@ const (
 	TorrentTypeMovie       = 0x01
 	TorrentTypeTV          = 0x02
 	TorrentTypeGame        = 0x04
-	TorrentTypeBook        = 0x05
+	TorrentTypeBook        = 0x08
 )
 
 // TorrentMeta stores the information about the torrent
 type TorrentMeta struct {
+	Name   string
+	Magnet string
+	Seeds  uint
+	Type   TorrentType
+	Size   uint
 }

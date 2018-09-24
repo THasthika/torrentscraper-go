@@ -7,5 +7,6 @@ As a hobby project to learn go as well as planning to use this for something els
 ## Sites Supported
 
 - eztv.ag
+- zooqle.com
 
 ## Contributions are Welcome!

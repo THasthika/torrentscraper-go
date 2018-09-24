@@ -3,5 +3,9 @@ package torrentscraper
 import "testing"
 
 func TestMain(t *testing.T) {
-	Test()
+	Init()
+
+	Search("Elementary S01E01")
+
+	SearchMovie("Iron Man")
 }

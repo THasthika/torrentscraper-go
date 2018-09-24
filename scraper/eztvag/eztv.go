@@ -18,7 +18,7 @@ const urlPlaceholder = "https://eztv.ag/search/%s"
 const colName = 1
 const colLink = 2
 const colSize = 3
-const colSeeds = 4
+const colSeeds = 5
 
 // Init func
 func Init() *scraper.Scraper {

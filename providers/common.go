@@ -1,19 +1,13 @@
-package scraper
+package providers
 
-// Scraper Implementation
-type Scraper struct {
+// Provider Implementation
+type Provider struct {
 	ID             string
 	Name           string
 	SupportedTypes TorrentType
-	Search         func(query string, t TorrentType, out chan Result)
-	SearchShow     func(name string, season uint, episode uint, out chan Result)
-	SearchMovie    func(name string, out chan Result)
-}
-
-// Result result from the scraper
-type Result struct {
-	Torrents []*TorrentMeta
-	Err      error
+	Search         func(query string, t TorrentType, out chan []*TorrentMeta)
+	SearchShow     func(name string, season uint, episode uint, out chan []*TorrentMeta)
+	SearchMovie    func(name string, out chan []*TorrentMeta)
 }
 
 // TorrentType of the Torrent

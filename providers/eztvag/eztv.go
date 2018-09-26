@@ -6,12 +6,12 @@ import (
 
 	"github.com/PuerkitoBio/goquery"
 
-	"github.com/tharindu96/torrentscraper-go/scraper"
+	"github.com/tharindu96/torrentscraper-go/providers"
 )
 
 const id = "eztvag"
 const name = "eztv.ag"
-const ttype = scraper.TorrentTypeTV
+const ttype = providers.TorrentTypeTV
 
 const urlPlaceholder = "https://eztv.ag/search/%s"
 
@@ -21,8 +21,8 @@ const colSize = 3
 const colSeeds = 5
 
 // Init func
-func Init() *scraper.Scraper {
-	return &scraper.Scraper{
+func Init() *providers.Provider {
+	return &providers.Provider{
 		ID:             id,
 		SupportedTypes: ttype,
 		Search:         Search,
@@ -31,55 +31,43 @@ func Init() *scraper.Scraper {
 }
 
 // Search func
-func Search(query string, t scraper.TorrentType, out chan scraper.Result) {
-
-	res := scraper.Result{}
-
+func Search(query string, t providers.TorrentType, out chan []*providers.TorrentMeta) {
 	if t&ttype != t {
-		out <- res
+		out <- nil
 		return
 	}
-
-	ret, err := search(query)
-
-	res.Torrents = ret
-	res.Err = err
-
-	out <- res
+	ret := search(query)
+	out <- ret
 }
 
 // SearchShow func
-func SearchShow(name string, season uint, episode uint, out chan scraper.Result) {
+func SearchShow(name string, season uint, episode uint, out chan []*providers.TorrentMeta) {
 	var query string
 	if episode > 0 {
 		query = fmt.Sprintf("%s-s%02de%02d", name, season, episode)
 	} else {
 		query = fmt.Sprintf("%s-s%02d", name, season)
 	}
-
-	ret, err := search(query)
-
-	res := scraper.Result{
-		Torrents: ret,
-		Err:      err,
-	}
-
-	out <- res
+	ret := search(query)
+	out <- ret
 }
 
-func search(query string) (torrents []*scraper.TorrentMeta, err error) {
-	ret := make([]*scraper.TorrentMeta, 0)
+func search(query string) []*providers.TorrentMeta {
+	ret := make([]*providers.TorrentMeta, 0)
 
 	url := fmt.Sprintf(urlPlaceholder, query)
 
-	doc, err := scraper.GetGoQueryDocument(url)
+	doc, err := providers.GetGoQueryDocument(url)
 	if err != nil {
-		return nil, err
+		return nil
 	}
 
 	table := doc.Find("table.forum_header_border").Last()
+	if len(table.Nodes) == 0 {
+		return nil
+	}
 	table.Find("tr.forum_header_border").Each(func(i int, row *goquery.Selection) {
-		t := scraper.TorrentMeta{}
+		t := providers.TorrentMeta{}
 		row.Find("td.forum_thread_post").Each(func(j int, col *goquery.Selection) {
 			switch j {
 			case colName:
@@ -95,7 +83,7 @@ func search(query string) (torrents []*scraper.TorrentMeta, err error) {
 				}
 				break
 			case colSize:
-				size, err := scraper.ConvertSize(col.Text())
+				size, err := providers.ConvertSize(col.Text())
 				if err == nil {
 					t.Size = size
 				}
@@ -105,5 +93,5 @@ func search(query string) (torrents []*scraper.TorrentMeta, err error) {
 		ret = append(ret, &t)
 	})
 
-	return ret, nil
+	return ret
 }

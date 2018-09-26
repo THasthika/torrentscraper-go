@@ -12,8 +12,6 @@ type Scraper struct {
 
 // Result result from the scraper
 type Result struct {
-	ID       string
-	Name     string
 	Torrents []*TorrentMeta
 	Err      error
 }

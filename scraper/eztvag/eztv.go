@@ -33,10 +33,7 @@ func Init() *scraper.Scraper {
 // Search func
 func Search(query string, t scraper.TorrentType, out chan scraper.Result) {
 
-	res := scraper.Result{
-		ID:   id,
-		Name: name,
-	}
+	res := scraper.Result{}
 
 	if t&ttype != t {
 		out <- res
@@ -63,10 +60,8 @@ func SearchShow(name string, season uint, episode uint, out chan scraper.Result)
 	ret, err := search(query)
 
 	res := scraper.Result{
-		ID:       id,
 		Torrents: ret,
 		Err:      err,
-		Name:     name,
 	}
 
 	out <- res

@@ -3,6 +3,7 @@ package scraper
 import (
 	"fmt"
 	"net/http"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -52,4 +53,17 @@ func ConvertSize(ssize string) (uint, error) {
 	}
 
 	return uint(fsize), nil
+}
+
+// GetTorrentXt returns the xt parameter from a magnet link
+func GetTorrentXt(magnet string) (string, error) {
+	rp, err := regexp.Compile("xt=([^&]+)")
+	if err != nil {
+		return "", err
+	}
+	t := rp.FindStringSubmatch(magnet)
+	if len(t) == 0 {
+		return "", nil
+	}
+	return t[1], nil
 }
